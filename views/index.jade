@@ -4,5 +4,43 @@ block content
   .container
     h2.headit .lock
     .phone
+      img(src="images/support.svg", width="250px", class="phonecall")
 
+  #lel.modal.fade
+    .modal-dialog
+        .modal-content
+          .modal-header
+            button.close.fui-cross(type='button', data-dismiss='modal', aria-hidden='true')
+            h4.modal-title Phone call
+          .modal-body
+            .row
+              .col-md-9
+                input#number.form-control(style='width: 100%; margin-bottom: 20px;', placeholder='Enter a number like +16519998888')
+              .col-md-3
+                #call.btn.btn-primary(style='width: 100%;') Call
+                #hangup.btn.btn-info(style='width: 100%; display: none;') Hang up
+            canvas#canvas(height='500px', width='572px')
 
+  script(src="/javascripts/jquery-2.0.3.min.js")
+  script(src='/javascripts/jquery-ui-1.10.3.custom.min.js')
+  script(src='/javascripts/jquery.ui.touch-punch.min.js')
+  script(src='/javascripts/bootstrap.min.js')
+  script(src='/javascripts/bootstrap-select.js')
+  script(src='/javascripts/bootstrap-switch.js')
+  script(src='/javascripts/flatui-checkbox.js')
+  script(src='/javascripts/flatui-radio.js')
+  script(src='/javascripts/holder.js')
+  script(src='/javascripts/flatui-fileinput.js')
+  script(src='/javascripts/jquery.tagsinput.js')
+  script(src='/javascripts/jquery.placeholder.js')
+  script(src='/javascripts/typeahead.js')
+  script(src='/javascripts/application.js')
+
+  script(type="text/javascript").
+    $(document).ready(function(){
+      $(".phonecall").addClass('animated pulse');
+    });
+
+    $(".phonecall").click(function(){
+      $("#lel").modal("show");
+    });
