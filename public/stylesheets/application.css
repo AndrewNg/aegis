@@ -1,0 +1,34 @@
+* {
+  margin: 0;
+}
+html, body {
+  background:url("../img/stardust.png");
+  color:#88d5c2;
+}
+
+.headit{
+  margin-top:80px;
+  font-size:72px;
+  letter-spacing: 1px;
+  color:rgba(256,256,256,0.5);
+  text-align: center;
+  cursor: pointer;
+}
+
+.phone{
+  margin:50px auto!important;
+  display:block;
+  text-align:center;
+}
+
+.phonecall{
+  cursor:pointer;
+  -webkit-animation-duration:4s;
+  -webkit-animation-iteration-count:infinite;
+}
+
+
+#canvas {
+  border-radius: 5px;
+}
+
