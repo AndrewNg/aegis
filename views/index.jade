@@ -13,9 +13,13 @@ block content
             button.close.fui-cross(type='button', data-dismiss='modal', aria-hidden='true')
             h4.modal-title Cam
           .modal-body
-            input#inputUserName(type="text", placeholder="Name", name="username")
-            input#inputUserNumber(type="text", placeholder="Number", name="usernumber")
-            button#btnSubmit submit
+            .row
+              .col-md-5
+                input#inputUserName(type="text", placeholder="Name", class = "form-control", name="username")
+              .col-md-5
+                input#inputUserNumber(type="text", placeholder="Number", class = "form-control", name="usernumber")
+              .col-md-2
+              .btn.btn-primary#btnSubmit Submit
 
   script(src='/javascripts/jquery-2.0.3.min.js')
   script(src='/javascripts/jquery-ui-1.10.3.custom.min.js')
