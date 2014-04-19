@@ -31,7 +31,24 @@ block content
   script(src='//static.twilio.com/libs/twiliojs/1.1/twilio.min.js')
 
   script(type='text/javascript')
+    // Set up Twilio "Device" with the generated token
+    Twilio.Device.setup('#{token}');
 
+    // Register an event handler to be called when there is a call
+    Twilio.Device.incoming(function(connection){
+      // Will not need for app
+    });
+
+    // Register an event handler to be called when call ends
+    Twilio.Device.disconnect(function(connection){
+      // Will not need for app
+    });
+
+    $('#movementhandler').on('click', function(){
+      Twilio.Device.connect({
+        CallerId:'+17328100203',
+        PhoneNumber:$('#numberfromdatabase').val()
+    });
 
   script(type="text/javascript").
     $(document).ready(function(){
