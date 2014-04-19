@@ -17,6 +17,7 @@
     "twilio": "*",
     "mongodb": "*",
     "monk": "*",
-    "leapjs": "*"
+    "leapjs": "*",
+    "sendgrid": "*"
   }
 }

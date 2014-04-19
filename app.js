@@ -5,6 +5,7 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var client = require('twilio')('ACf790f48ac9a0c4a1cb5e5548945e0889', '8be80276be5dd74cf822b080068b1fd4');
+var sendgrid = require('sendgrid')('Matetricks', 'chessbr01');
 
 // Set up communciation with the database
 var mongo = require('mongodb');
@@ -36,9 +37,16 @@ app.use(function(req,res,next){
 app.use('/', routes);
 app.use('/users', users);
 
-// Handle SMS
+// Build the email
+var email = new sendgrid.Email({
+  to: 'ajng21@gmail.com',
+  from: 'alert@aegis.com',
+  subject: 'URGENT - Movement Detected',
+  text: 'Please visit this link to view a livestream of the feed'
+});
 
-/* Send out going SMS message. The req will have the phone number and screenshot URL */
+/* Send outgoing SMS message. The req will have the phone number and screenshot URL */
+/* Also send out the call. And the SendGrid email. */
 app.post('/message', function(req, res) {
   client.sendMessage({
     to: '+1' + req.body.number,
@@ -55,6 +63,11 @@ app.post('/message', function(req, res) {
     from: '+17328100203',
     url: 'http://twimlbin.com/external/d41989be5b86b0d6'
   });
+
+  sendgrid.send(email, function(err, json) {
+    if (err) {return console.error(err); }
+  });
+
   res.send(req.body);
 });
 
