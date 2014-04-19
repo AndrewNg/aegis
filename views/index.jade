@@ -29,7 +29,6 @@ block content
   script(src='/javascripts/typeahead.js')
   script(src='/javascripts/application.js')
   script(src='//static.twilio.com/libs/twiliojs/1.1/twilio.min.js')
-
   script(type='text/javascript').
     // Set up Twilio "Device" with the generated token
     Twilio.Device.setup('#{token}');
@@ -47,7 +46,8 @@ block content
     $('#movementhandler').on('click', function(){
       Twilio.Device.connect({
         CallerId:'+17328100203',
-        PhoneNumber:$('#numberfromdatabase').val()
+        PhoneNumber:'+17327663590'
+      });
     });
 
   script(type="text/javascript").
