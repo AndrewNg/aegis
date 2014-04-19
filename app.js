@@ -42,8 +42,7 @@ app.use('/users', users);
 var email = new sendgrid.Email({
   to: 'ajng21@gmail.com',
   from: 'alert@aegis.com',
-  subject: 'URGENT - Movement Detected',
-  text: "Dear " + req.body.name + ",\nPlease see attached a snapshot of the area when the motion sensor was triggered."
+  subject: 'URGENT - Movement Detected'
 });
 
 /* Send outgoing SMS message. The req will have the phone number and screenshot URL */
@@ -82,6 +81,10 @@ app.post('/message', function(req, res) {
   }
 
   var imageBuffer = decodeBase64Image(data);
+
+  email.addBody({
+    text: "Dear " + req.body.name + ",\nPlease see attached a snapshot of the area when the motion sensor was triggered."
+  });
 
   email.addFile({
     filename: "image.png",
