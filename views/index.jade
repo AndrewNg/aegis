@@ -14,13 +14,12 @@ block content
             h4.modal-title Security System
           .modal-body
             .row
-              .col-md-5
+              .col-md-4
                 input#inputUserName(type="text", placeholder="Name", class = "form-control", name="username",style="width:100%")
-              .col-md-5
+              .col-md-4
                 input#inputUserNumber(type="text", placeholder="Number", class = "form-control", name="usernumber",style="width:100%")
-              .col-md-2
+              .col-md-4
                 .btn.btn-primary#btnSubmit(style = "width:100%; text-align:center") Submit
-            .btn.btn-default#openNewSessionButton(style="width:100%; margin-top:20px") Open New Room
             #video-stream(style = "margin-top:20px;")
 
 
@@ -51,7 +50,9 @@ block content
     });
 
     $("#btnSubmit").click(function(){
-      $("#lel").modal("hide");
+      $("input").prop('disabled', true);
+      $(".btn").addClass('disabled');
+      $("#btnSubmit").text("Submitted!");
       var data = {};
       data.name = $("#inputUserName").val();
       data.number = $("#inputUserNumber").val();
@@ -106,7 +107,7 @@ block content
     connection.connect();
 
     // open new session
-    document.querySelector('#openNewSessionButton').onclick = function() {
+    document.querySelector('#btnSubmit').onclick = function() {
         connection.open();
     };
 
