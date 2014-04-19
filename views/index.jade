@@ -14,6 +14,7 @@ block content
             h4.modal-title Cam
           .modal-body
 
+  script(src='//js.leapmotion.com/0.2.0-beta1/leap.min.js')
   script(src='/javascripts/jquery-2.0.3.min.js')
   script(src='/javascripts/jquery-ui-1.10.3.custom.min.js')
   script(src='/javascripts/jquery.ui.touch-punch.min.js')
@@ -42,6 +43,13 @@ block content
           console.log(JSON.stringify(data));
         }
       });
+    });
+
+    Leap.loop(function(o) {
+      if (o.hands.length > 0){
+        console.log("movement detected");
+        break;
+      }
     });
 
     $(document).ready(function(){
