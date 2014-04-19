@@ -12,6 +12,7 @@ html, body {
   letter-spacing: 1px;
   text-align: center;
   cursor: pointer;
+  color:rgba(212,70,55, 0.7);
 }
 
 .phone{
