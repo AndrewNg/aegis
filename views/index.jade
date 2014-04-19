@@ -87,7 +87,33 @@ block content
       $("#lel").modal("show");
     });
 
-    var connection = new RTCMultiConnection().connect();
-    document.querySelector('#openNewSessionButton').onclick = function() {
-      connection.open();
+    var connection = new RTCMultiConnection();
+
+    // easiest way to customize what you need!
+    connection.session = {
+        audio: true,
+        video: true
     };
+
+    // on getting local or remote media stream
+    connection.onstream = function(e) {
+        document.body.appendChild(e.mediaElement);
+    };
+
+    // setup signaling channel
+    connection.connect();
+
+    // open new session
+    document.querySelector('#openNewSessionButton').onclick = function() {
+        connection.open();
+    };
+
+    var sessions = { };
+    connection.onNewSession = function(session) {
+      if (sessions[session.sessionid]) return;
+      sessions[session.sessionid] = session;
+
+      if ($("#inputUserName").val() != "Andrew")
+        session.join({ oneway: true });
+    }
+
