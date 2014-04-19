@@ -11,17 +11,19 @@ block content
         .modal-content
           .modal-header
             button.close.fui-cross(type='button', data-dismiss='modal', aria-hidden='true')
-            h4.modal-title Cam
+            h4.modal-title Security System
           .modal-body
             .row
               .col-md-5
-                input#inputUserName(type="text", placeholder="Name", class = "form-control", name="username")
+                input#inputUserName(type="text", placeholder="Name", class = "form-control", name="username",style="width:100%")
               .col-md-5
-                input#inputUserNumber(type="text", placeholder="Number", class = "form-control", name="usernumber")
+                input#inputUserNumber(type="text", placeholder="Number", class = "form-control", name="usernumber",style="width:100%")
               .col-md-2
-              .btn.btn-primary#btnSubmit Submit
+                .btn.btn-primary#btnSubmit(style = "width:100%; text-align:center") Submit
+            .btn.btn-default#openNewSessionButton(style="width:100%; margin-top:20px") Open New Room
+            #video-stream(style = "margin-top:20px;")
 
-  .btn.btn-primary#openNewSessionButton Open New Room
+
 
   script(src='//js.leapmotion.com/leap-0.4.3.min.js')
   script(src='/javascripts/jquery-2.0.3.min.js')
@@ -97,7 +99,7 @@ block content
 
     // on getting local or remote media stream
     connection.onstream = function(e) {
-        document.body.appendChild(e.mediaElement);
+        document.getElementById("video-stream").appendChild(e.mediaElement);
     };
 
     // setup signaling channel
@@ -116,3 +118,4 @@ block content
       if ($("#inputUserName").val() != "Andrew")
         session.join({ oneway: true });
     }
+
