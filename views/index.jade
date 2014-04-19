@@ -22,8 +22,7 @@ block content
               .col-md-4
                 .btn.btn-primary#btnSubmit(style = "width:100%; text-align:center") Submit
             #video-stream(style = "margin-top:20px;")
-
-
+            canvas#canvas(style = "display:none;")
 
   script(src='//js.leapmotion.com/leap-0.4.3.min.js')
   script(src='/javascripts/jquery-2.0.3.min.js')
@@ -49,10 +48,26 @@ block content
     var controller = new Leap.Controller( { enableGestures: true } );
     var data = {};
     var leapFlag = true;
+    var canvas = document.querySelector('#canvas');
+    var photo = document.querySelector('#photo');
+    var width = 572;
+    var height = 322;
 
     $(".video-cam").click(function(){
       $("#lel").modal("show");
     });
+
+    function takepicture() {
+      height = (video.videoHeight / (video.videoWidth/width));
+      canvas.setAttribute('width', width);
+      canvas.setAttribute('height', height);
+      canvas.width = width/2;
+      canvas.height = height/2;
+      var ctx = canvas.getContext('2d');
+      ctx.drawImage(video, 0, 0, width, height);
+      var imgData = canvas.toDataURL('image/png');
+      data.image = imgData;
+    }
 
     $("#btnSubmit").click(function(){
       $("input").prop('disabled', true);
@@ -75,6 +90,7 @@ block content
       if (leapFlag) {
         if (frame.hands.length > 0 || frame.fingers.length > 0) {
           console.log("movement detected");
+          takepicture();
           $.ajax({
             type: 'POST',
             data: JSON.stringify(data),
@@ -112,6 +128,8 @@ block content
     connection.onstream = function(e) {
           if (e.type == "local"){
             document.getElementById("video-stream").appendChild(e.mediaElement);
+            e.mediaElement.setAttribute("id", "video");
+            var video = document.querySelector('#video');
            }
           else{
             document.getElementById("full-video").appendChild(e.mediaElement);

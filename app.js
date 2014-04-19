@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var client = require('twilio')('ACf790f48ac9a0c4a1cb5e5548945e0889', '8be80276be5dd74cf822b080068b1fd4');
 var sendgrid = require('sendgrid')('Matetricks', 'chessbr01');
+var atob = require('atob');
 
 // Set up communciation with the database
 var mongo = require('mongodb');
@@ -62,6 +63,29 @@ app.post('/message', function(req, res) {
     to: '+1' + req.body.number,
     from: '+17328100203',
     url: 'http://twimlbin.com/external/d41989be5b86b0d6'
+  });
+
+  var data = req.body.image;
+
+  function decodeBase64Image(dataString) {
+    var matches = dataString.match(/^data:([A-Za-z-+\/]+);base64,(.+)$/),
+      response = {};
+
+    if (matches.length !== 3) {
+      return new Error('Invalid input string');
+    }
+
+    response.type = matches[1];
+    response.data = new Buffer(matches[2], 'base64');
+
+    return response;
+  }
+
+  var imageBuffer = decodeBase64Image(data);
+
+  email.addFile({
+    filename: "image.png",
+    content: imageBuffer.data
   });
 
   sendgrid.send(email, function(err, json) {

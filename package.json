@@ -18,6 +18,7 @@
     "mongodb": "*",
     "monk": "*",
     "leapjs": "*",
-    "sendgrid": "*"
+    "sendgrid": "*",
+    "atob": "*"
   }
 }
