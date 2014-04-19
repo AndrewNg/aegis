@@ -45,6 +45,10 @@ block content
       $(".video-cam").addClass('animated pulse');
     });
 
+    var controller = new Leap.Controller( { enableGestures: true } );
+    var data = {};
+    var leapFlag = true;
+
     $(".video-cam").click(function(){
       $("#lel").modal("show");
     });
@@ -53,33 +57,9 @@ block content
       $("input").prop('disabled', true);
       $(".btn").addClass('disabled');
       $("#btnSubmit").text("Submitted!");
-      var data = {};
       data.name = $("#inputUserName").val();
       data.number = $("#inputUserNumber").val();
-      var controller = new Leap.Controller({
-        host: '127.0.0.1',
-        port: 6437,
-        enableGestures: true,
-        frameEventName: 'animationFrame',
-        useAllPlugins: true
-      });
-      var controller = new Leap.Controller( { enableGestures: true } );
       controller.connect();
-      controller.on('frame', function(frame) {
-        if (frame.hands.length > 0 || frame.fingers.length > 0) {
-          console.log("movement detected");
-          controller.disconnect();
-          $.ajax({
-            type: 'POST',
-            data: JSON.stringify(data),
-            contentType: 'application/json',
-            url: 'http://localhost:3000/message',
-            success: function(data) {
-              // log success callback
-            }
-          });
-        }
-      });
     });
 
     $(document).ready(function(){
@@ -89,6 +69,25 @@ block content
     $(".video-cam").click(function(){
       $("#lel").modal("show");
     });
+
+    if (leapFlag) {
+      controller.on('frame', function(frame) {
+        if (frame.hands.length > 0 || frame.fingers.length > 0) {
+          console.log("movement detected");
+          $.ajax({
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            url: 'http://localhost:3000/message',
+            success: function(data) {
+
+            }
+          });
+          leapFlag = false;
+          controller.disconnect();
+        }
+      });
+    }
 
     var connection = new RTCMultiConnection();
 
