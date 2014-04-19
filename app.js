@@ -59,13 +59,6 @@ app.post('/message', function(req, res) {
   res.send(req.body);
 });
 
-client.makeCall({
-  to: '+17327663590',
-  from: '+17328100203',
-  url: 'http://twimlbin.com/external/d41989be5b86b0d6'
-});
-
-
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
