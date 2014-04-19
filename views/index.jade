@@ -2,9 +2,9 @@ extends layout
 
 block content
   .container
-    h2.headit .lock
+    h2.headit aegis
     .phone
-      img(src="images/support.svg", width="250px", class="phonecall")
+      img(src="images/shield.svg", width="250px", class="video-cam")
 
   #lel.modal.fade
     .modal-dialog
@@ -38,7 +38,7 @@ block content
 
   script(type="text/javascript").
     $(document).ready(function(){
-      $(".phonecall").addClass('animated pulse');
+      $(".video-cam").addClass('animated pulse');
     });
 
     $(".phonecall").click(function(){

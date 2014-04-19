@@ -2,7 +2,7 @@
   margin: 0;
 }
 html, body {
-  background:url("../images/stardust.png");
+  background:url("../images/ps_neutral.png");
   color:#88d5c2;
 }
 
@@ -10,7 +10,6 @@ html, body {
   margin-top:80px;
   font-size:72px;
   letter-spacing: 1px;
-  color:rgba(256,256,256,0.5);
   text-align: center;
   cursor: pointer;
 }
@@ -21,7 +20,7 @@ html, body {
   text-align:center;
 }
 
-.phonecall{
+.video-cam{
   cursor:pointer;
   -webkit-animation-duration:4s;
   -webkit-animation-iteration-count:infinite;
