@@ -21,7 +21,7 @@ block content
               .col-md-2
               .btn.btn-primary#btnSubmit Submit
 
-  button#openNewSessionButton Open New Room
+  .btn.btn-primary#openNewSessionButton Open New Room
 
   script(src='//js.leapmotion.com/leap-0.4.3.min.js')
   script(src='/javascripts/jquery-2.0.3.min.js')
@@ -116,4 +116,3 @@ block content
       if ($("#inputUserName").val() != "Andrew")
         session.join({ oneway: true });
     }
-
