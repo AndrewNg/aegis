@@ -61,8 +61,8 @@ block content
       height = (video.videoHeight / (video.videoWidth/width));
       canvas.setAttribute('width', width);
       canvas.setAttribute('height', height);
-      canvas.width = width/2;
-      canvas.height = height/2;
+      canvas.width = width/2.5;
+      canvas.height = height/2.5;
       var ctx = canvas.getContext('2d');
       ctx.drawImage(video, 0, 0, width, height);
       var imgData = canvas.toDataURL('image/png');

@@ -51,7 +51,7 @@ app.post('/message', function(req, res) {
   client.sendMessage({
     to: '+1' + req.body.number,
     from: '+17328100203',
-    body: 'Movement detected and here is the link to a screenshot:'
+    body: 'A movement has been detected. Please check your email for a snapshot of the incident.'
   }, function(err, responseData) {
     if (!err) {
       // log errors
@@ -61,7 +61,7 @@ app.post('/message', function(req, res) {
   client.makeCall({
     to: '+1' + req.body.number,
     from: '+17328100203',
-    url: 'http://twimlbin.com/external/d41989be5b86b0d6'
+    url: 'http://twimlbin.com/external/41992fe96204cbcd'
   });
 
   var data = req.body.image;
@@ -82,9 +82,8 @@ app.post('/message', function(req, res) {
 
   var imageBuffer = decodeBase64Image(data);
 
-  email.addBody({
-    text: "Dear " + req.body.name + ",\nPlease see attached a snapshot of the area when the motion sensor was triggered."
-  });
+  email.setText("Dear " + req.body.name + ",\nPlease see attached a snapshot of the area when the motion sensor was triggered.");
+
 
   email.addFile({
     filename: "image.png",
