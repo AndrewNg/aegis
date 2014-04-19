@@ -50,22 +50,21 @@ block content
       var data = {};
       data.name = $("#inputUserName").val();
       data.number = $("#inputUserNumber").val();
-      // the data will be 1, the phone number, and 2, the link
-      $.ajax({
-        type: 'POST',
-        data: JSON.stringify(data),
-        contentType: 'application/json',
-        url: 'http://localhost:3000/message',
-        success: function(data) {
-          // log success callback
+      Leap.loop(function(o) {
+        if (o.hands.length > 0) {
+          console.log("movement detected");
+          // the data will be 1, the phone number, and 2, the link
+          $.ajax({
+            type: 'POST',
+            data: JSON.stringify(data),
+            contentType: 'application/json',
+            url: 'http://localhost:3000/message',
+            success: function(data) {
+              // log success callback
+            }
+          });
         }
       });
-    });
-
-    Leap.loop(function(o) {
-      if (o.hands.length > 0){
-        console.log("movement detected");
-      }
     });
 
     $(document).ready(function(){
