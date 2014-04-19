@@ -4,7 +4,7 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var twilio = require('twilio');
+var client = require('twilio')('ACf790f48ac9a0c4a1cb5e5548945e0889', '8be80276be5dd74cf822b080068b1fd4');
 
 // Set up communciation with the database
 var mongo = require('mongodb');
@@ -35,6 +35,24 @@ app.use(function(req,res,next){
 
 app.use('/', routes);
 app.use('/users', users);
+
+// Handle SMS
+
+/* Send out going SMS message. The req will have the phone number and screenshot URL */
+app.post('/message', function(req, res) {
+  client.sendMessage({
+    to: '+17327663590',
+    from: '+17328100203',
+    body: 'Movement detected and here is the link to a screenshot:'
+  }, function(err, responseData) {
+    if (!err) {
+      console.log(responseData.from);
+      console.log(responseData.body);
+    }
+  });
+  res.send(req.body);
+});
+
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
