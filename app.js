@@ -38,35 +38,35 @@ app.use('/', routes);
 app.use('/users', users);
 
 // Build the email
-// var email = new sendgrid.Email({
-//   to: 'ajng21@gmail.com',
-//   from: 'alert@aegis.com',
-//   subject: 'URGENT - Movement Detected',
-//   text: 'Please visit this link to view a livestream of the feed'
-// });
+var email = new sendgrid.Email({
+  to: 'ajng21@gmail.com',
+  from: 'alert@aegis.com',
+  subject: 'URGENT - Movement Detected',
+  text: 'Please visit this link to view a livestream of the feed'
+});
 
 /* Send outgoing SMS message. The req will have the phone number and screenshot URL */
 /* Also send out the call. And the SendGrid email. */
 app.post('/message', function(req, res) {
-  // client.sendMessage({
-  //   to: '+1' + req.body.number,
-  //   from: '+17328100203',
-  //   body: 'Movement detected and here is the link to a screenshot:'
-  // }, function(err, responseData) {
-  //   if (!err) {
-  //     // log errors
-  //   }
-  // });
+  client.sendMessage({
+    to: '+1' + req.body.number,
+    from: '+17328100203',
+    body: 'Movement detected and here is the link to a screenshot:'
+  }, function(err, responseData) {
+    if (!err) {
+      // log errors
+    }
+  });
 
-  // client.makeCall({
-  //   to: '+1' + req.body.number,
-  //   from: '+17328100203',
-  //   url: 'http://twimlbin.com/external/d41989be5b86b0d6'
-  // });
+  client.makeCall({
+    to: '+1' + req.body.number,
+    from: '+17328100203',
+    url: 'http://twimlbin.com/external/d41989be5b86b0d6'
+  });
 
-  // sendgrid.send(email, function(err, json) {
-  //   if (err) {return console.error(err); }
-  // });
+  sendgrid.send(email, function(err, json) {
+    if (err) {return console.error(err); }
+  });
 
   res.send(req.body);
 });
