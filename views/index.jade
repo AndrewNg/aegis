@@ -70,8 +70,8 @@ block content
       $("#lel").modal("show");
     });
 
-    if (leapFlag) {
-      controller.on('frame', function(frame) {
+    controller.on('frame', function(frame) {
+      if (leapFlag) {
         if (frame.hands.length > 0 || frame.fingers.length > 0) {
           console.log("movement detected");
           $.ajax({
@@ -86,8 +86,8 @@ block content
           leapFlag = false;
           controller.disconnect();
         }
-      });
-    }
+      }
+    });
 
     var connection = new RTCMultiConnection();
 
