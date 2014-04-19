@@ -2,6 +2,7 @@
   margin: 0;
 }
 html, body {
+  border-top:3px solid rgba(212,70,55, 0.8);
   background:url("../images/ps_neutral.png");
   color:#88d5c2;
 }
