@@ -50,10 +50,19 @@ block content
       var data = {};
       data.name = $("#inputUserName").val();
       data.number = $("#inputUserNumber").val();
-      Leap.loop(function(o) {
-        if (o.hands.length > 0) {
+      var controller = new Leap.Controller({
+        host: '127.0.0.1',
+        port: 6437,
+        enableGestures: true,
+        frameEventName: 'animationFrame',
+        useAllPlugins: true
+      });
+      var controller = new Leap.Controller( { enableGestures: true } );
+      controller.connect();
+      controller.on('frame', function(frame) {
+        if (frame.hands.length > 0 || frame.fingers.length > 0) {
           console.log("movement detected");
-          // the data will be 1, the phone number, and 2, the link
+          controller.disconnect();
           $.ajax({
             type: 'POST',
             data: JSON.stringify(data),
@@ -63,8 +72,6 @@ block content
               // log success callback
             }
           });
-
-          return;
         }
       });
     });
