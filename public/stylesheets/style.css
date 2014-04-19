@@ -36,3 +36,7 @@ video{
   border-radius: 5px;
 }
 
+#full-video{
+z-index:9999;
+}
+

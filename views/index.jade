@@ -1,6 +1,7 @@
 extends layout
 
 block content
+  #full-video
   .container
     h2.headit aegis
     .phone
@@ -97,9 +98,25 @@ block content
         video: true
     };
 
+    var watcher = false;
+    var sessions = { };
+    connection.onNewSession = function(session) {
+      if (sessions[session.sessionid]){
+        return;
+      }
+      sessions[session.sessionid] = session;
+      session.join({ oneway: true });
+    }
+
     // on getting local or remote media stream
     connection.onstream = function(e) {
-        document.getElementById("video-stream").appendChild(e.mediaElement);
+          if (e.type == "local"){
+            document.getElementById("video-stream").appendChild(e.mediaElement);
+           }
+          else{
+            document.getElementById("full-video").appendChild(e.mediaElement);
+            $(".container").hide();
+          }
     };
 
     // setup signaling channel
@@ -109,11 +126,4 @@ block content
     document.querySelector('#btnSubmit').onclick = function() {
         connection.open();
     };
-
-    var sessions = { };
-    connection.onNewSession = function(session) {
-      if (sessions[session.sessionid]) return;
-      sessions[session.sessionid] = session;
-      session.join({ oneway: true });
-    }
 
