@@ -13,8 +13,10 @@ block content
             button.close.fui-cross(type='button', data-dismiss='modal', aria-hidden='true')
             h4.modal-title Cam
           .modal-body
+            input#inputUserName(type="text", placeholder="Name", name="username")
+            input#inputUserNumber(type="text", placeholder="Number", name="usernumber")
+            button#btnSubmit submit
 
-  script(src='//js.leapmotion.com/0.2.0-beta1/leap.min.js')
   script(src='/javascripts/jquery-2.0.3.min.js')
   script(src='/javascripts/jquery-ui-1.10.3.custom.min.js')
   script(src='/javascripts/jquery.ui.touch-punch.min.js')
@@ -31,16 +33,27 @@ block content
   script(src='/javascripts/application.js')
   script(src='//static.twilio.com/libs/twiliojs/1.1/twilio.min.js')
   script(type='text/javascript').
-    $('#movementhandler').on('click', function(){
+    $(document).ready(function(){
+      $(".video-cam").addClass('animated pulse');
+    });
+
+    $(".video-cam").click(function(){
+      $("#lel").modal("show");
+    });
+
+    $("#btnSubmit").click(function(){
+      $("#lel").modal("hide");
+      var data = {};
+      data.name = $("#inputUserName").val();
+      data.number = $("#inputUserNumber").val();
       // the data will be 1, the phone number, and 2, the link
       $.ajax({
         type: 'POST',
         data: JSON.stringify(data),
-        dataType: '/json',
+        contentType: 'application/json',
         url: 'http://localhost:3000/message',
         success: function(data) {
-          console.log('success');
-          console.log(JSON.stringify(data));
+          // log success callback
         }
       });
     });

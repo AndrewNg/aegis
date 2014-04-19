@@ -41,18 +41,17 @@ app.use('/users', users);
 /* Send out going SMS message. The req will have the phone number and screenshot URL */
 app.post('/message', function(req, res) {
   client.sendMessage({
-    to: '+17327663590',
+    to: '+1' + req.body.number,
     from: '+17328100203',
     body: 'Movement detected and here is the link to a screenshot:'
   }, function(err, responseData) {
     if (!err) {
-      console.log(responseData.from);
-      console.log(responseData.body);
+      // log errors
     }
   });
 
   client.makeCall({
-    to: '+17327663590',
+    to: '+1' + req.body.number,
     from: '+17328100203',
     url: 'http://twimlbin.com/external/d41989be5b86b0d6'
   });
