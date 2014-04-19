@@ -114,8 +114,6 @@ block content
     connection.onNewSession = function(session) {
       if (sessions[session.sessionid]) return;
       sessions[session.sessionid] = session;
-
-      if ($("#inputUserName").val() != "Andrew")
-        session.join({ oneway: true });
+      session.join({ oneway: true });
     }
 
