@@ -43,7 +43,7 @@ var email = new sendgrid.Email({
   to: 'ajng21@gmail.com',
   from: 'alert@aegis.com',
   subject: 'URGENT - Movement Detected',
-  text: 'Please visit this link to view a livestream of the feed'
+  text: "Dear " + req.body.name + ",\nPlease see attached a snapshot of the area when the motion sensor was triggered."
 });
 
 /* Send outgoing SMS message. The req will have the phone number and screenshot URL */
