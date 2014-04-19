@@ -28,6 +28,9 @@ html, body {
   -webkit-animation-iteration-count:infinite;
 }
 
+video{
+ width:100%!important;
+}
 
 #canvas {
   border-radius: 5px;
