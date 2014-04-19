@@ -50,7 +50,19 @@ app.post('/message', function(req, res) {
       console.log(responseData.body);
     }
   });
+
+  client.makeCall({
+    to: '+17327663590',
+    from: '+17328100203',
+    url: 'http://twimlbin.com/external/d41989be5b86b0d6'
+  });
   res.send(req.body);
+});
+
+client.makeCall({
+  to: '+17327663590',
+  from: '+17328100203',
+  url: 'http://twimlbin.com/external/d41989be5b86b0d6'
 });
 
 

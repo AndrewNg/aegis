@@ -11,11 +11,8 @@ router.get('/', function(req, res) {
     "8be80276be5dd74cf822b080068b1fd4"
   );
 
-  // Give capability generator permission to accept incoming calls
-  capability.allowClientIncoming('kevin');
-
   // outgoing
-  capability.allowClientOutgoing('AP168c7b4fccfe20acc03dd2646626d0d3');
+  capability.allowClientOutgoing('APc42e53f2d09e115863fcdce98184bbb7');
 
   // Render HTML page which contains capability token
   res.render('index', {
