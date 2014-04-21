@@ -9,9 +9,9 @@ var sendgrid = require('sendgrid')('Matetricks', 'chessbr01');
 var atob = require('atob');
 
 // Set up communciation with the database
-var mongo = require('mongodb');
-var monk = require('monk');
-var db = monk('localhost:27017/aegis');
+// var mongo = require('mongodb');
+// var monk = require('monk');
+// var db = monk('localhost:27017/aegis');
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -30,10 +30,10 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 // Make our db accessible to our router
-app.use(function(req,res,next){
-  req.db = db;
-  next();
-});
+// app.use(function(req,res,next){
+//   req.db = db;
+//   next();
+// });
 
 app.use('/', routes);
 app.use('/users', users);
