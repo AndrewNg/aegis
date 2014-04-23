@@ -8,10 +8,9 @@ var client = require('twilio')('ACf790f48ac9a0c4a1cb5e5548945e0889', '8be80276be
 var sendgrid = require('sendgrid')('Matetricks', 'chessbr01');
 var atob = require('atob');
 
-// Set up communciation with the database
-// var mongo = require('mongodb');
-// var monk = require('monk');
-// var db = monk('localhost:27017/aegis');
+var mongoose = require('mongoose');
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
 var routes = require('./routes/index');
 var users = require('./routes/users');
@@ -27,16 +26,21 @@ app.use(logger('dev'));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb'}));
 app.use(cookieParser());
+app.use(passport.initialize());;
+app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
-// Make our db accessible to our router
-// app.use(function(req,res,next){
-//   req.db = db;
-//   next();
-// });
-
 app.use('/', routes);
-app.use('/users', users);
+app.use('/', users);
+
+// passport configuration
+var Account = require('./models/account');
+passport.use(new LocalStrategy(Account.authenticate()));
+passport.serializeUser(Account.serializeUser());
+passport.deserializeUser(Account.deserializeUser());
+
+// mongoose
+mongoose.connect('mongodb://localhost/aegis');
 
 // Build the email
 var email = new sendgrid.Email({
