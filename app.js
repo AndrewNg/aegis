@@ -24,8 +24,8 @@ app.set('view engine', 'jade');
 
 app.use(favicon(path.join(__dirname, 'public/images/shield.ico')));
 app.use(logger('dev'));
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded());
+app.use(bodyParser.json({limit: '50mb'}));
+app.use(bodyParser.urlencoded({limit: '50mb'}));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -40,7 +40,6 @@ app.use('/users', users);
 
 // Build the email
 var email = new sendgrid.Email({
-  to: 'ajng21@gmail.com',
   from: 'alert@aegis.com',
   subject: 'URGENT - Movement Detected'
 });
@@ -82,9 +81,8 @@ app.post('/message', function(req, res) {
 
   var imageBuffer = decodeBase64Image(data);
 
+  email.addTo(req.body.email);
   email.setText("Dear " + req.body.name + ",\nPlease see attached a snapshot of the area when the motion sensor was triggered.");
-
-
   email.addFile({
     filename: "image.png",
     content: imageBuffer.data

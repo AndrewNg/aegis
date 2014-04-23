@@ -3,7 +3,7 @@ extends layout
 block content
   #full-video
   .container
-    h2.headit aegis
+    h2.headit RShield
     .phone
       img(src="images/shield.svg", width="250px", class="video-cam")
 
@@ -15,14 +15,18 @@ block content
             h4.modal-title Security System
           .modal-body
             .row
-              .col-md-4
+              .col-md-3
                 input#inputUserName(type="text", placeholder="Name", class = "form-control", name="username",style="width:100%")
-              .col-md-4
+              .col-md-3
                 input#inputUserNumber(type="text", placeholder="Number", class = "form-control", name="usernumber",style="width:100%")
-              .col-md-4
+              .col-md-3
+                input#inputUserEmail(type="text", placeholder="Email", class= "form-control", name="useremail", style="width:100%")
+              .col-md-3
                 .btn.btn-primary#btnSubmit(style = "width:100%; text-align:center") Submit
             #video-stream(style = "margin-top:20px;")
             canvas#canvas(style = "display:none;")
+            canvas#canvas-source(style="display:none;")
+            canvas#canvas-blended(style="display:none;")
 
   script(src='//js.leapmotion.com/leap-0.4.3.min.js')
   script(src='/javascripts/jquery-2.0.3.min.js')
@@ -47,11 +51,15 @@ block content
 
     var controller = new Leap.Controller( { enableGestures: true } );
     var data = {};
-    var leapFlag = true;
+    var sendFlag = true;
     var canvas = document.querySelector('#canvas');
+    var canvasSource = document.querySelector("#canvas-source");
+    var canvasBlended = document.querySelector("#canvas-blended");
     var photo = document.querySelector('#photo');
+    var lastImageData;
     var width = 572;
     var height = 322;
+    var startTrackingMotion = 0;
 
     $(".video-cam").click(function(){
       $("#lel").modal("show");
@@ -61,12 +69,122 @@ block content
       height = (video.videoHeight / (video.videoWidth/width));
       canvas.setAttribute('width', width);
       canvas.setAttribute('height', height);
-      canvas.width = width/2.5;
-      canvas.height = height/2.5;
+      canvas.width = width;
+      canvas.height = height;
       var ctx = canvas.getContext('2d');
       ctx.drawImage(video, 0, 0, width, height);
       var imgData = canvas.toDataURL('image/png');
       data.image = imgData;
+    }
+
+    window.requestAnimFrame = (function () {
+    return window.requestAnimationFrame     ||
+         window.webkitRequestAnimationFrame ||
+         window.mozRequestAnimationFrame    ||
+         window.oRequestAnimationFrame      ||
+         window.msRequestAnimationFrame     ||
+      function (callback) {
+        window.setTimeout(callback, 1000 / 60);
+      };
+    })();
+
+    function checkMovement() {
+      canvasSource.setAttribute('width', width);
+      canvasSource.setAttribute('height', height);
+      canvasSource.width = width;
+      canvas.height = height;
+
+      var contextSource = canvasSource.getContext('2d');
+      var contextBlended = canvasBlended.getContext('2d');
+
+      contextSource.drawImage(video, 0, 0, width, height);
+
+      var sourceData = contextSource.getImageData(0, 0, width, height);
+      // create an image if previous one does not exist
+      if (!lastImageData)
+        lastImageData = contextSource.getImageData(0, 0, width, height);
+      // create ImageData instance to receive the blended result
+      var blendedData = contextSource.createImageData(width, height);
+
+      // blend the two images
+      differenceAccuracy(blendedData.data, sourceData.data, lastImageData.data);
+
+      // draw result on a canvas
+      contextBlended.putImageData(blendedData, 0, 0);
+
+      // Store the current webcam image
+      lastImageData = sourceData;
+
+      // check the blended area for motion
+      var blendedData = contextBlended.getImageData(0, 0, width, height);
+      var i = 0;
+      var average = 0;
+      while (i < (blendedData.data.length * 0.25)) {
+        // make an average between the color channel
+        average += (blendedData.data[i * 4] + blendedData.data[i * 4 + 1] + blendedData.data[i * 4 + 2]) / 3;
+        ++i;
+      }
+      // calculate an average between the color values of the spot area
+      average = Math.round(average / (blendedData.data.length * 0.25));
+
+      // Trigger when motion is detected. Average is the threshold.
+      if (average > 5 && startTrackingMotion > 5 && sendFlag) {
+        console.log("motion detected");
+        takepicture();
+        $.ajax({
+          type: 'POST',
+          data: JSON.stringify(data),
+          contentType: 'application/json',
+          url: '/message',
+          success: function(data) {
+
+          },
+          error: function(xhr) {
+            console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText);
+          }
+        });
+        sendFlag = false;
+      }
+
+      requestAnimFrame(checkMovement);
+
+      startTrackingMotion++;
+    }
+
+    function fastAbs(value) {
+      return (value ^ (value >> 31)) - (value >> 31);
+    }
+
+    function threshold(value) {
+      return (value > 0x15) ? 0xFF : 0;
+    }
+
+    function difference(target, data1, data2) {
+      // blend mode difference
+      if (data1.length != data2.length) return null;
+      var i = 0;
+      while (i < (data1.length * 0.25)) {
+        target[4 * i] = data1[4 * i] == 0 ? 0 : fastAbs(data1[4 * i] - data2[4 * i]);
+        target[4 * i + 1] = data1[4 * i + 1] == 0 ? 0 : fastAbs(data1[4 * i + 1] - data2[4 * i + 1]);
+        target[4 * i + 2] = data1[4 * i + 2] == 0 ? 0 : fastAbs(data1[4 * i + 2] - data2[4 * i + 2]);
+        target[4 * i + 3] = 0xFF;
+        ++i;
+      }
+    }
+
+    function differenceAccuracy(target, data1, data2) {
+      if (data1.length != data2.length) return null;
+      var i = 0;
+      while (i < (data1.length * 0.25)) {
+        var average1 = (data1[4 * i] + data1[4 * i + 1] + data1[4 * i + 2]) / 3;
+        var average2 = (data2[4 * i] + data2[4 * i + 1] + data2[4 * i + 2]) / 3;
+        var diff = threshold(fastAbs(average1 - average2));
+        target[4 * i] = diff;
+        target[4 * i + 1] = diff;
+        target[4 * i + 2] = diff;
+        target[4 * i + 3] = 0xFF;
+        ++i;
+      }
     }
 
     $("#btnSubmit").click(function(){
@@ -75,6 +193,7 @@ block content
       $("#btnSubmit").text("Submitted!");
       data.name = $("#inputUserName").val();
       data.number = $("#inputUserNumber").val();
+      data.email = $("#inputUserEmail").val();
       controller.connect();
     });
 
@@ -86,8 +205,9 @@ block content
       $("#lel").modal("show");
     });
 
+    // Leap Motion code
     controller.on('frame', function(frame) {
-      if (leapFlag) {
+      if (sendFlag) {
         if (frame.hands.length > 0 || frame.fingers.length > 0) {
           console.log("movement detected");
           takepicture();
@@ -98,9 +218,12 @@ block content
             url: '/message',
             success: function(data) {
 
+            },
+            error: function(xhr) {
+              console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText);
             }
           });
-          leapFlag = false;
+          sendFlag = false;
           controller.disconnect();
         }
       }
@@ -130,6 +253,7 @@ block content
             document.getElementById("video-stream").appendChild(e.mediaElement);
             e.mediaElement.setAttribute("id", "video");
             var video = document.querySelector('#video');
+            checkMovement();
            }
           else{
             document.getElementById("full-video").appendChild(e.mediaElement);
