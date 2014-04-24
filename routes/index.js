@@ -5,7 +5,7 @@ var Account = require('../models/account');
 var router = express.Router();
 
 router.get('/', function(req, res) {
-  res.render('index', {title:'aegis'});
+  res.render('index', {title:'RShield'});
 });
 
 router.get('/map', function(req, res) {

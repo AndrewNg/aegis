@@ -44,7 +44,7 @@ passport.deserializeUser(Account.deserializeUser());
 
 // Build the email
 var email = new sendgrid.Email({
-  from: 'alert@aegis.com',
+  from: 'alert@rshield.com',
   subject: 'URGENT - Movement Detected',
 });
 
@@ -86,7 +86,7 @@ app.post('/message', function(req, res) {
   var imageBuffer = decodeBase64Image(data);
 
   email.addTo(req.body.email);
-  email.setText("Dear Aegis User,\nPlease see attached a snapshot of the area when the motion sensor was triggered.");
+  email.setText("Dear User,\nPlease see attached a snapshot of the area when the motion sensor was triggered.");
   email.addFile({
     filename: "image.png",
     content: imageBuffer.data
