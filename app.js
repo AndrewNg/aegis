@@ -40,7 +40,7 @@ passport.serializeUser(Account.serializeUser());
 passport.deserializeUser(Account.deserializeUser());
 
 // mongoose
-mongoose.connect('mongodb://localhost/aegis');
+// mongoose.connect('mongodb://localhost/aegis');
 
 // Build the email
 var email = new sendgrid.Email({
