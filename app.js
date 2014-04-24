@@ -7,15 +7,15 @@ var bodyParser = require('body-parser');
 var client = require('twilio')('ACf790f48ac9a0c4a1cb5e5548945e0889', '8be80276be5dd74cf822b080068b1fd4');
 var sendgrid = require('sendgrid')('Matetricks', 'chessbr01');
 var atob = require('atob');
-
-var mongoose = require('mongoose');
+var session = require('express-session');
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
-var routes = require('./routes/index');
-var users = require('./routes/users');
+var mongoose = require('mongoose');
 
 var app = express();
+
+var routes = require('./routes/index');
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -26,14 +26,14 @@ app.use(logger('dev'));
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb'}));
 app.use(cookieParser());
+app.use(session({ secret: 'keyboard cat', key: 'sid', cookie: { secure: true }}));
 app.use(passport.initialize());;
 app.use(passport.session());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', routes);
-app.use('/', users);
 
-// passport configuration
+// passport config
 var Account = require('./models/account');
 passport.use(new LocalStrategy(Account.authenticate()));
 passport.serializeUser(Account.serializeUser());
@@ -45,7 +45,7 @@ mongoose.connect('mongodb://localhost/aegis');
 // Build the email
 var email = new sendgrid.Email({
   from: 'alert@aegis.com',
-  subject: 'URGENT - Movement Detected'
+  subject: 'URGENT - Movement Detected',
 });
 
 /* Send outgoing SMS message. The req will have the phone number and screenshot URL */
@@ -86,7 +86,7 @@ app.post('/message', function(req, res) {
   var imageBuffer = decodeBase64Image(data);
 
   email.addTo(req.body.email);
-  email.setText("Dear " + req.body.name + ",\nPlease see attached a snapshot of the area when the motion sensor was triggered.");
+  email.setText("Dear Aegis User,\nPlease see attached a snapshot of the area when the motion sensor was triggered.");
   email.addFile({
     filename: "image.png",
     content: imageBuffer.data

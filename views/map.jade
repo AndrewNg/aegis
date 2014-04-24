@@ -1,0 +1,17 @@
+extends layout
+
+block content
+  .container
+    #map-canvas(style="height:700px")
+
+  script(src="https://maps.googleapis.com/maps/api/js?sensor=false")
+  script(type="text/javascript").
+    function initialize() {
+      var mapOptions = {
+        center: new google.maps.LatLng(43.1656, -77.6114),
+        zoom: 8
+      };
+      var map = new google.maps.Map(document.getElementById("map-canvas"), mapOptions);
+    }
+
+    google.maps.event.addDomListener(window, 'load', initialize);
