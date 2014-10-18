@@ -4,8 +4,11 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var client = require('twilio')(ACCOUNT_SID, AUTH_TOKEN);
-var sendgrid = require('sendgrid')(USERNAME, PASSWORD);
+
+require('./super_secret');
+
+var client = require('twilio')(global.ACCOUNT_SID, global.AUTH_TOKEN);
+var sendgrid = require('sendgrid')(global.USERNAME, global.PASSWORD);
 var atob = require('atob');
 var session = require('express-session');
 var passport = require('passport');
