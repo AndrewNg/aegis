@@ -51,6 +51,7 @@ var email = new sendgrid.Email({
 /* Send outgoing SMS message. The req will have the phone number and screenshot URL */
 /* Also send out the call. And the SendGrid email. */
 app.post('/message', function(req, res) {
+  console.log(req);
   client.sendMessage({
     to: '+1' + req.body.number,
     from: '+17328100203',

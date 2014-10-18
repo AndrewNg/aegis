@@ -41,7 +41,7 @@ block content
   script(src='/javascripts/jquery.placeholder.js')
   script(src='/javascripts/typeahead.js')
   script(src='//static.twilio.com/libs/twiliojs/1.1/twilio.min.js')
-  script(src="//www.rtcmulticonnection.org/latest.js")
+  script(src="/javascripts/latest.js")
   script(type='text/javascript').
     $(document).ready(function(){
       $(".video-cam").addClass('animated pulse');
@@ -124,9 +124,10 @@ block content
       }
       // calculate an average between the color values of the spot area
       average = Math.round(average / (blendedData.data.length * 0.25));
+      console.log(startTrackingMotion);
 
       // Trigger when motion is detected. Average is the threshold.
-      if (average > 5 && startTrackingMotion > 5 && sendFlag) {
+      if (average > 5 && startTrackingMotion > 100 && sendFlag) {
         console.log("motion detected");
         takepicture();
         $.ajax({
