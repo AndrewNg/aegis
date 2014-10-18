@@ -4,8 +4,11 @@ var favicon = require('static-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var client = require('twilio')('ACf790f48ac9a0c4a1cb5e5548945e0889', '8be80276be5dd74cf822b080068b1fd4');
-var sendgrid = require('sendgrid')('Matetricks', 'chessbr01');
+
+require('./super_secret');
+
+var client = require('twilio')(global.ACCOUNT_SID, global.AUTH_TOKEN);
+var sendgrid = require('sendgrid')(global.USERNAME, global.PASSWORD);
 var atob = require('atob');
 var session = require('express-session');
 var passport = require('passport');
