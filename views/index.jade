@@ -124,7 +124,6 @@ block content
       }
       // calculate an average between the color values of the spot area
       average = Math.round(average / (blendedData.data.length * 0.25));
-      console.log(startTrackingMotion);
 
       // Trigger when motion is detected. Average is the threshold.
       if (average > 5 && startTrackingMotion > 100 && sendFlag) {
