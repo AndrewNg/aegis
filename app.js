@@ -103,6 +103,11 @@ app.post('/message', function(req, res) {
   res.send(req.body);
 });
 
+/* Store extra pictures into the database after the alert */
+app.post('/storeimage', function(req, res) {
+  console.log("sabar put the saving code here");
+});
+
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
   var err = new Error('Not Found');
