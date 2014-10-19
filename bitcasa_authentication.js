@@ -24,7 +24,7 @@ var string_to_sign = http_verb +
 
 string_to_sign = "POST&/v2/oauth2/token&grant_type=password&password=password&username=sabar&Content-Type:application%2Fx-www-form-urlencoded&Date:Sun%2C+19+Oct+2014+06%3A06%3A24+GMT"
 var signature = CryptoJS.HmacSHA1(string_to_sign, secret.BITCASA_CLIENT_SECRET).toString(CryptoJS.enc.Base64);
-console.log(signature);
+//console.log(signature);
 
 
 // console.log(unescape(encodeURIComponent(string_to_sign)));
@@ -41,7 +41,7 @@ var form = {
 };
 var formData = querystring.stringify(form);
 
-console.log(header_value);
+//console.log(header_value);
 
 var post_options = {
   host: 'qi4uisuzus.cloudfs.io',
@@ -56,7 +56,7 @@ var post_options = {
 };
 
 var post_req = http.request(post_options, function(res) {
-  console.log(res.headers);
+  //console.log(res.headers);
   res.setEncoding('utf8');
   res.on('data', function (chunk) {
       console.log('Response: ' + chunk);
@@ -69,5 +69,18 @@ post_req.on('error', function(e) {
 
 post_req.end();
 
-//console.log(post_req);
+var get_options = {
+  host: 'qi4uisuzus.cloudfs.io',
+  path: '/v2/ping',
+  method: 'GET',
+  headers: {
+    'Authorization': 'Bearer US2.3638b74c554f4520b80a4122ada19aff.LYVvn3YFASc2fyA28Bz7XJbak08JUa1-Zk35_ShgXpk'
+  }
+}
+
+http.request(get_options, function(res) {
+  console.log("Got response: " + res.statusCode);
+}).on('error', function(e) {
+  console.log("Got error: " + e.message);
+}).end();
 
