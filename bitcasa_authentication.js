@@ -71,15 +71,24 @@ post_req.end();
 
 var get_options = {
   host: 'qi4uisuzus.cloudfs.io',
-  path: '/v2/ping',
+  path: '/v2/folders',
   method: 'GET',
   headers: {
     'Authorization': 'Bearer US2.3638b74c554f4520b80a4122ada19aff.LYVvn3YFASc2fyA28Bz7XJbak08JUa1-Zk35_ShgXpk'
   }
-}
+};
 
 http.request(get_options, function(res) {
   console.log("Got response: " + res.statusCode);
+
+  /*res.on('data', function (chunk) {
+    output += chunk;
+  });
+
+  res.on('end', function() {
+    var obj = JSON.parse(output);
+    console.log(obj);
+  });*/
 }).on('error', function(e) {
   console.log("Got error: " + e.message);
 }).end();
