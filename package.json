@@ -27,7 +27,9 @@
     "passport-local-mongoose": "^0.3.0",
     "mocha": "~1.18.2",
     "chai": "~1.9.1",
-    "should": "~3.3.0"
+    "should": "~3.3.0",
+    "crypto-js": "*",
+    "utf8": "*"
   },
   "engines": {
     "node": "0.10.x"

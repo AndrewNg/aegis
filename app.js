@@ -5,10 +5,11 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
-require('./super_secret');
+var secret = require('./super_secret');
+var auth = require('./bitcasa_authentication');
 
-var client = require('twilio')(global.ACCOUNT_SID, global.AUTH_TOKEN);
-var sendgrid = require('sendgrid')(global.USERNAME, global.PASSWORD);
+var client = require('twilio')(secret.ACCOUNT_SID, secret.AUTH_TOKEN);
+var sendgrid = require('sendgrid')(secret.USERNAME, secret.PASSWORD);
 var atob = require('atob');
 var session = require('express-session');
 var passport = require('passport');
