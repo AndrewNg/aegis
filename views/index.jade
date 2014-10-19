@@ -58,6 +58,7 @@ block content
     var width = 572;
     var height = 322;
     var startTrackingMotion = 0;
+    var storeFlag = true;
 
     $(".video-cam").click(function(){
       $("#lel").modal("show");
@@ -124,10 +125,9 @@ block content
       }
       // calculate an average between the color values of the spot area
       average = Math.round(average / (blendedData.data.length * 0.25));
-      console.log(startTrackingMotion);
 
       // Trigger when motion is detected. Average is the threshold.
-      if (average > 5 && startTrackingMotion > 100 && sendFlag) {
+      if (average > 5 && startTrackingMotion > 100 && sendFlag && storeFlag) {
         console.log("motion detected");
         takepicture();
         $.ajax({
@@ -143,6 +143,24 @@ block content
           }
         });
         sendFlag = false;
+        storeFlag = false;
+      }
+
+      if (average > 5 && startTrackingMotion > 100 && storeFlag == false) {
+        console.log("saving photo from movement");
+        takepicture();
+        $.ajax({
+          type: 'POST',
+          data: JSON.stringify(data),
+          contentType: 'application/json',
+          url: '/storeimage',
+          success: function(data) {
+
+          },
+          error: function(xhr) {
+            console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText);
+          }
+        });
       }
 
       requestAnimFrame(checkMovement);
