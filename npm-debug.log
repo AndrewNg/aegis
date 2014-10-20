@@ -1,7 +1,9 @@
 0 info it worked if it ends with ok
-1 verbose cli [ '/usr/local/bin/node', '/usr/local/bin/npm', 'start' ]
-2 info using npm@1.4.28
-3 info using node@v0.10.32
+1 verbose cli [ '/usr/local/Cellar/node/0.10.26/bin/node',
+1 verbose cli   '/usr/local/bin/npm',
+1 verbose cli   'start' ]
+2 info using npm@1.4.3
+3 info using node@v0.10.26
 4 verbose run-script [ 'prestart', 'start', 'poststart' ]
 5 info prestart aegis@0.0.1
 6 info start aegis@0.0.1
@@ -17,10 +19,10 @@
 10 error You can get their info via:
 10 error     npm owner ls aegis
 10 error There is likely additional logging output above.
-11 error System Darwin 13.4.0
-12 error command "/usr/local/bin/node" "/usr/local/bin/npm" "start"
-13 error cwd /Users/Sabar/Dev/aegis
-14 error node -v v0.10.32
-15 error npm -v 1.4.28
+11 error System Darwin 14.0.0
+12 error command "/usr/local/Cellar/node/0.10.26/bin/node" "/usr/local/bin/npm" "start"
+13 error cwd /Users/andrew/Desktop/Dev/hackathons/aegis
+14 error node -v v0.10.26
+15 error npm -v 1.4.3
 16 error code ELIFECYCLE
 17 verbose exit [ 1, true ]

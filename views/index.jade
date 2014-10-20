@@ -245,6 +245,24 @@ block content
       }
     });
 
+    function testBitcasa() {
+     $.ajax({
+      type:"GET",
+      beforeSend: function (request)
+      {
+          request.setRequestHeader("Authorization", 'Bearer US2.ff22a2deaf8c484bb13b68d069d2f8d5.LYVvn3YFASc2fyA28Bz7XJbak08JUa1-Zk35_ShgXpk');
+          request.setRequestHeader("Content-Type", 'application/x-www-form-urlencoded; charset=utf8');
+      },
+      url: "https://qi4uisuzus.cloudfs.io/v2/ping",
+      success: function(msg) {
+          console.log('fuck yes');
+      },
+      error: function(xhr) {
+        console.log('Request Status: ' + xhr.status + ' Status Text: ' + xhr.statusText);
+      }
+    });
+    }
+
     var connection = new RTCMultiConnection();
 
     // easiest way to customize what you need!

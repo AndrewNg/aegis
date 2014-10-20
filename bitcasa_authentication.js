@@ -9,17 +9,17 @@ var encodeURL = function(str){
 }
 
 var date = new Date();
-var interesting_headers = encodeURL("Content-Type") + ":" + encodeURL("application/x-www-form-urlencoded; charset=\"utf-8\"") + 
+var interesting_headers = encodeURL("Content-Type") + ":" + encodeURL("application/x-www-form-urlencoded; charset=\"utf-8\"") +
                           "&" + encodeURL("Date") + ":" + encodeURL(date.toUTCString());
-var query_string_parameters = encodeURL("grant_type") + "=" + encodeURL("password") + 
-                          "&" + encodeURL("password") + "=" + encodeURL("password") + 
+var query_string_parameters = encodeURL("grant_type") + "=" + encodeURL("password") +
+                          "&" + encodeURL("password") + "=" + encodeURL("password") +
                           "&" + encodeURL("username") + "=" + encodeURL("sabar");
 
 var url_path = "/v2/oauth2/token";
 var http_verb = "POST";
-var string_to_sign = http_verb + 
+var string_to_sign = http_verb +
                     "&" + url_path +
-                    "&" + query_string_parameters + 
+                    "&" + query_string_parameters +
                     "&" + interesting_headers;
 
 string_to_sign = "POST&/v2/oauth2/token&grant_type=password&password=password&username=sabar&Content-Type:application%2Fx-www-form-urlencoded&Date:Sun%2C+19+Oct+2014+06%3A06%3A24+GMT"
@@ -34,8 +34,8 @@ var signature = CryptoJS.HmacSHA1(string_to_sign, secret.BITCASA_CLIENT_SECRET).
 var header_value = "BCS " + secret.BITCASA_CLIENT_ID + ":" + signature.toString();
 var header = "Authorization: " + header_value;
 
-var form = { 
-  grant_type: 'password', 
+var form = {
+  grant_type: 'password',
   password: 'password',
   username: 'sabar'
 };
@@ -69,16 +69,23 @@ post_req.on('error', function(e) {
 
 post_req.end();
 
-var get_options = {
-  host: 'qi4uisuzus.cloudfs.io',
-  path: '/v2/folders',
+// var get_token_options = {
+//   host: 'qi4uisuzus.cloudfs.io',
+//   headers: {
+
+//   }
+// };
+
+var get_ping_options = {
   method: 'GET',
   headers: {
-    'Authorization': 'Bearer US2.3638b74c554f4520b80a4122ada19aff.LYVvn3YFASc2fyA28Bz7XJbak08JUa1-Zk35_ShgXpk'
+    'Host': 'qi4uisuzus.cloudfs.io',
+    'Path': '/v2/ping',
+    'Authorization': 'Bearer US2.ff22a2deaf8c484bb13b68d069d2f8d5.LYVvn3YFASc2fyA28Bz7XJbak08JUa1-Zk35_ShgXpk'
   }
 };
 
-http.request(get_options, function(res) {
+http.request(get_ping_options, function(res) {
   console.log("Got response: " + res.statusCode);
 
   /*res.on('data', function (chunk) {
