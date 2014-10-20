@@ -87,17 +87,18 @@ var get_ping_options = {
   }
 };
 
+var output = "";
+
 http.request(get_ping_options, function(res) {
   console.log("Got response: " + res.statusCode);
 
-  /*res.on('data', function (chunk) {
+  res.on('data', function (chunk) {
     output += chunk;
   });
 
   res.on('end', function() {
-    var obj = JSON.parse(output);
-    console.log(obj);
-  });*/
+    console.log(output);
+  });
 }).on('error', function(e) {
   console.log("Got error: " + e.message);
 }).end();
