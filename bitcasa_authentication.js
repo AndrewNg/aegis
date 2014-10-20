@@ -80,22 +80,23 @@ var get_ping_options = {
   method: 'GET',
   headers: {
     'Host': 'qi4uisuzus.cloudfs.io',
-    'Path': '/v2/ping',
+    'Path': '/v2/user/profile',
     'Authorization': 'Bearer US2.ff22a2deaf8c484bb13b68d069d2f8d5.LYVvn3YFASc2fyA28Bz7XJbak08JUa1-Zk35_ShgXpk'
   }
 };
 
+var output = "";
+
 http.request(get_ping_options, function(res) {
   console.log("Got response: " + res.statusCode);
 
-  /*res.on('data', function (chunk) {
+  res.on('data', function (chunk) {
     output += chunk;
   });
 
   res.on('end', function() {
-    var obj = JSON.parse(output);
-    console.log(obj);
-  });*/
+    console.log(output);
+  });
 }).on('error', function(e) {
   console.log("Got error: " + e.message);
 }).end();
