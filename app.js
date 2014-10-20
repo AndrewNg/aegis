@@ -127,31 +127,6 @@ app.post('/storeimage', function(req, res) {
   var imageBuffer = decodeBase64Image(data);
   var im = imageBuffer.data;
 
-  var get_options = {
-    method: 'GET',
-    headers: {
-      'Host': 'qi4uisuzus.cloudfs.io',
-      'Path': '/v2/user/profile/',
-      'Authorization': 'Bearer US2.ff22a2deaf8c484bb13b68d069d2f8d5.LYVvn3YFASc2fyA28Bz7XJbak08JUa1-Zk35_ShgXpk'
-    }
-  }
-
-  http.request(get_ping_options, function(res) {
-  console.log("Got response: " + res.statusCode);
-
-    res.on('data', function (chunk) {
-      output += chunk;
-    });
-
-    res.on('end', function() {
-      var obj = JSON.parse(output);
-      console.log(obj);
-    });
-  }).on('error', function(e) {
-    console.log("Got error: " + e.message);
-  }).end();
-
-/*
   var form_options = {
     'file': 'test',
     'exists': 'overwrite',
@@ -162,7 +137,7 @@ app.post('/storeimage', function(req, res) {
     method: 'POST',
     headers: {
       'Host': 'qi4uisuzus.cloudfs.io',
-      'Path': '/v2/files/',
+      'Path': '/v2/files/' + (new Buffer("test").toString('base64')).toString(),
       'Authorization': 'Bearer US2.ff22a2deaf8c484bb13b68d069d2f8d5.LYVvn3YFASc2fyA28Bz7XJbak08JUa1-Zk35_ShgXpk',
       'Content-Type': 'multipart/form-data'
     },
@@ -183,9 +158,8 @@ app.post('/storeimage', function(req, res) {
 
   post_req.write(im);
   post_req.end();
-*/
 
-  });
+});
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
