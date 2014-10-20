@@ -4,6 +4,7 @@ var querystring = require('querystring');
 var secret = require('./super_secret');
 var utf8 = require('utf8');
 
+
 var encodeURL = function(str){
     return encodeURIComponent(str).replace(/%20/g, "+").replace(/\!/g, "%21").replace(/\~/g, "%7E").replace(/\*/g, "%2A").replace(/\'/g, "%27").replace(/\(/g, "%28").replace(/\)/g, "%29");
 }
@@ -43,6 +44,7 @@ var formData = querystring.stringify(form);
 
 //console.log(header_value);
 
+/*
 var post_options = {
   host: 'qi4uisuzus.cloudfs.io',
   path: '/v2/oauth2/token',
@@ -67,7 +69,7 @@ post_req.on('error', function(e) {
   console.log('problem with request: ' + e.message);
 });
 
-post_req.end();
+post_req.end();*/
 
 // var get_token_options = {
 //   host: 'qi4uisuzus.cloudfs.io',
@@ -81,7 +83,7 @@ var get_ping_options = {
   headers: {
     'Host': 'qi4uisuzus.cloudfs.io',
     'Path': '/v2/ping',
-    'Authorization': 'Bearer US2.ff22a2deaf8c484bb13b68d069d2f8d5.LYVvn3YFASc2fyA28Bz7XJbak08JUa1-Zk35_ShgXpk'
+    'Authorization': 'Bearer US2.daed6ecde32a470f88bd150c0b39cb06.LYVvn3YFASc2fyA28Bz7XJbak08JUa1-Zk35_ShgXpk'
   }
 };
 

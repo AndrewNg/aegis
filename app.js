@@ -6,7 +6,9 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var secret = require('./super_secret');
-var auth = require('./bitcasa_authentication');
+var querystring = require('querystring');
+var http = require('http');
+//var auth = require('./bitcasa_authentication');
 
 var client = require('twilio')(secret.ACCOUNT_SID, secret.AUTH_TOKEN);
 var sendgrid = require('sendgrid')(secret.USERNAME, secret.PASSWORD);
@@ -123,9 +125,67 @@ app.post('/storeimage', function(req, res) {
   }
 
   var imageBuffer = decodeBase64Image(data);
-  var image = imageBuffer.data;
+  var im = imageBuffer.data;
 
-});
+  var get_options = {
+    method: 'GET',
+    headers: {
+      'Host': 'qi4uisuzus.cloudfs.io',
+      'Path': '/v2/user/profile/',
+      'Authorization': 'Bearer US2.ff22a2deaf8c484bb13b68d069d2f8d5.LYVvn3YFASc2fyA28Bz7XJbak08JUa1-Zk35_ShgXpk'
+    }
+  }
+
+  http.request(get_ping_options, function(res) {
+  console.log("Got response: " + res.statusCode);
+
+    res.on('data', function (chunk) {
+      output += chunk;
+    });
+
+    res.on('end', function() {
+      var obj = JSON.parse(output);
+      console.log(obj);
+    });
+  }).on('error', function(e) {
+    console.log("Got error: " + e.message);
+  }).end();
+
+/*
+  var form_options = {
+    'file': 'test',
+    'exists': 'overwrite',
+  };
+  var formData = querystring.stringify(form_options);
+
+  var post_options = {
+    method: 'POST',
+    headers: {
+      'Host': 'qi4uisuzus.cloudfs.io',
+      'Path': '/v2/files/',
+      'Authorization': 'Bearer US2.ff22a2deaf8c484bb13b68d069d2f8d5.LYVvn3YFASc2fyA28Bz7XJbak08JUa1-Zk35_ShgXpk',
+      'Content-Type': 'multipart/form-data'
+    },
+    body: formData
+  };
+
+  var post_req = http.request(post_options, function(res) {
+    console.log(res.statusCode);
+    res.setEncoding('utf8');
+    res.on('data', function (chunk) {
+        console.log('Response: ' + chunk);
+    });
+  });
+
+  post_req.on('error', function(e) {
+    console.log('problem with request: ' + e.message);
+  });
+
+  post_req.write(im);
+  post_req.end();
+*/
+
+  });
 
 /// catch 404 and forwarding to error handler
 app.use(function(req, res, next) {
